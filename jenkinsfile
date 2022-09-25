@@ -16,9 +16,10 @@ pipeline {
         }
         stage('Nexus Push'){
             steps{
-                withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
-                    sh "sudo docker login -u admin -p ${dockerhub}"
-                    sh "sudo docker push my/nodeapp:${DOCKER_TAG}"
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub',
+        usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                    sh "sudo docker login -u $USERNAME -p $PASSWORD"
+                    sh "sudo docker push my/nodeapp:${tag}"
                 }
             }
         }
