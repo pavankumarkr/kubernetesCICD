@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+    environment{
+        DOCKER_TAG = getDockerTag()
+    }
+    stages{
+        stage('Build Docker Image'){
+            steps{
+                sh "docker build . -t my/nodeapp:${DOCKER_TAG}"
+            }
+        }
+        stage('Nexus Push'){
+            steps{
+                withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
+                    sh "docker login -u admin -p ${dockerhub}"
+                    sh "docker push my/nodeapp:${DOCKER_TAG}"
+                }
+            }
+        }
+        
+    }
+}
+
+def getDockerTag(){
+    def tag  = sh script: 'git rev-parse HEAD', returnStdout: true
+    return tag
+}
