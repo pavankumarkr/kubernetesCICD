@@ -1,12 +1,15 @@
 pipeline {
     agent any
-
-    parameters {
-        string(
-                name: 'tag',
-                defaultValue: '1',
-                description: 'dockebuildtag')
-    }            
+    environment { 
+3
+        registry = "YourDockerhubAccount/YourRepository" 
+4
+        registryCredential = 'dockerhub_id' 
+5
+        dockerImage = '' 
+6
+    }
+          
 
     stages{
         stage('Build Docker Image'){
@@ -16,11 +19,9 @@ pipeline {
         }
         stage('Nexus Push'){
             steps{
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub',
-        usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                    sh "sudo docker login -u $USERNAME -p $PASSWORD"
+                    sh "sudo docker login -u mytechnicallearning1 -p mytechnicallearning1@"
                     sh "sudo docker push my/nodeapp:${tag}"
-                }
+                
             }
         }
         
