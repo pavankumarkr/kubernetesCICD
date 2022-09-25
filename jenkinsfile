@@ -6,14 +6,14 @@ pipeline {
     stages{
         stage('Build Docker Image'){
             steps{
-                sh "docker build . -t my/nodeapp:${DOCKER_TAG}"
+                sh "sudo docker build . -t my/nodeapp:${DOCKER_TAG}"
             }
         }
         stage('Nexus Push'){
             steps{
                 withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
-                    sh "docker login -u admin -p ${dockerhub}"
-                    sh "docker push my/nodeapp:${DOCKER_TAG}"
+                    sh "sudo docker login -u admin -p ${dockerhub}"
+                    sh "sudo docker push my/nodeapp:${DOCKER_TAG}"
                 }
             }
         }
