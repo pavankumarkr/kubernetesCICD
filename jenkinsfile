@@ -12,11 +12,21 @@ pipeline {
                 sh "sudo docker build . -t my/nodeapp:${tag}"
             }
         }
-        stage('Nexus Push'){
-            steps{
-                    sh "sudo docker login -u mytechnicallearning1 -p mytechnicallearning1@"
-                    sh "sudo docker push my/nodeapp:${tag}"
-                
+
+        stage('Building our image') { 
+            steps { 
+                script { 
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+                }
+            } 
+        }
+        stage('Deploy our image') { 
+            steps { 
+                script { 
+                    docker.withRegistry( '', registryCredential ) { 
+                        dockerImage.push() 
+                    }
+                } 
             }
         }
         
