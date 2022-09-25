@@ -1,12 +1,17 @@
 pipeline {
     agent any
-    environment{
-        DOCKER_TAG = getDockerTag()
-    }
+
+    parameters {
+        string(
+                name: 'tag',
+                defaultValue: '1',
+                description: 'dockebuildtag')
+    }            
+
     stages{
         stage('Build Docker Image'){
             steps{
-                sh "sudo docker build . -t my/nodeapp:${DOCKER_TAG}"
+                sh "sudo docker build . -t my/nodeapp:${tag}"
             }
         }
         stage('Nexus Push'){
@@ -21,7 +26,4 @@ pipeline {
     }
 }
 
-def getDockerTag(){
-    def tag  = sh script: 'git rev-parse HEAD', returnStdout: true
-    return tag
-}
+
