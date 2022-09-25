@@ -1,16 +1,11 @@
 pipeline {
     agent any
     environment { 
-3
         registry = "mytechnicallearning1/mynodeapp" 
-4
         registryCredential = 'dockerhub' 
-5
         dockerImage = '' 
-6
     }
           
-
     stages{
         stage('Build Docker Image'){
             steps{
