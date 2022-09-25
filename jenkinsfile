@@ -2,9 +2,9 @@ pipeline {
     agent any
     environment { 
 3
-        registry = "YourDockerhubAccount/YourRepository" 
+        registry = "mytechnicallearning1/mynodeapp" 
 4
-        registryCredential = 'dockerhub_id' 
+        registryCredential = 'dockerhub' 
 5
         dockerImage = '' 
 6
