@@ -4,7 +4,7 @@ pipeline {
     stages{
         stage('Build Docker Image'){
             steps{
-                sh "sudo docker build . -t my-node-app:1"
+                sh "sudo docker build . -t mytechnicallearning1/my-node-app"
             }
         }
 
